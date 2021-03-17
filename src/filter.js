@@ -2,6 +2,10 @@ import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import isBefore from 'date-fns/isBefore';
 
+const remove_accents_space = (str: string): string => {
+    return str.normalize("NFD").replace(/[^a-zA-Zs]/g, "").toLowerCase()
+}
+
 export const filterComponent = (categories, values) => {
     let arr = []
 
@@ -75,13 +79,37 @@ export const filterComponent = (categories, values) => {
 
             item.slider.events.filter(event => {
 
-                const checkLocation = event.locationName.toLowerCase() === values.locationQuery.toLowerCase()
+                //const checkLocation = event.locationName.toLowerCase() === values.locationQuery.toLowerCase()
 
-                if (checkLocation) {
+                const locationQuery = remove_accents_space(values.locationQuery)
+
+                let arrStr = []
+
+                for (let i = 0; i < locationQuery.length; i++) {
+                    let c = locationQuery.charAt(i);
+                    arrStr.push(c)
+                }
+
+                const arrayString = []
+
+                const stringFormatted = remove_accents_space(event.locationName)
+
+                for (let i = 0; i < stringFormatted.length; i++) {
+                    let c = stringFormatted.charAt(i);
+
+                    arrayString.push(c)
+                }
+
+                const result = [...Array(arrStr.length).keys()].map(element => arrStr[element] === arrayString[element]);
+
+                console.log('result', result);
+
+                if (result[0] && result[1] && result[2] && result[3] && result[4]) {
                     LISTA_LOCAIS_EVENTOS.push(event)
                 }
             })
             arr[index].slider.events = LISTA_LOCAIS_EVENTOS
+
         })
 
     }

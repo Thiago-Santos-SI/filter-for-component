@@ -42,7 +42,7 @@ arr.map((string, index) => {
 
 
 
-    /*
+
     let arrBool = []
 
     arrStr.map((characters, i) => {
@@ -59,7 +59,7 @@ arr.map((string, index) => {
 
     console.log(arrBool)
 
-     */
+
 })
 
 for (let i = 0; i < res.length; i++) {
